@@ -1,0 +1,42 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QMessageBox
+
+class KalkulatorBB(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        layout = QVBoxLayout()
+        title_label = QLabel("Kalkulator BMI")
+        layout.addWidget(title_label)
+
+        weight_label = QLabel("Berat (kg):")
+        self.weight_edit = QLineEdit()
+        layout.addWidget(weight_label)
+        layout.addWidget(self.weight_edit)
+
+        height_label = QLabel("Tinggi (cm):")
+        self.height_edit = QLineEdit()
+        layout.addWidget(height_label)
+        layout.addWidget(self.height_edit)
+
+        calculate_button = QPushButton("Hitung BMI")
+        layout.addWidget(calculate_button)
+        calculate_button.clicked.connect(self.on_calculate_button_clicked)
+        self.setLayout(layout)
+        self.setWindowTitle("Kalkulator BMI")
+
+    def on_calculate_button_clicked(self):
+        weight = float(self.weight_edit.text())
+        height = float(self.height_edit.text())
+        bmi = weight / ((height / 100) ** 2)
+
+        result_text = "BMI Anda: {:.2f}".format(bmi)
+        QMessageBox.information(self, "Hasil", result_text)
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    calculator = KalkulatorBB()
+    calculator.show()
+    sys.exit(app.exec_())
